@@ -22,7 +22,7 @@ headers = {
 response = requests.post(url, json=payload, headers=headers)
 
 if response.status_code == 200:
-    audio_file_path = os.path.join(os.getcwd(), "output.mp3")  # Use absolute path
+    audio_file_path = os.path.join(os.getcwd(), "output.mp3")  
     response_data = response.json()
     audio_base64 = response_data['audios'][0]
     audio_data = base64.b64decode(audio_base64)
