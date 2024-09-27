@@ -1,5 +1,4 @@
 sarvam_rag_assignmemnt/
-│
 ├── app.py                  #Streamlit app script with audio
 ├── iesc111.pdf             #NCERT pdf
 ├── rag.py                  #RAG logic 
