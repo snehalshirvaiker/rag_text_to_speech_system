@@ -1,12 +1,14 @@
 sarvam_rag_assignmemnt/
-├── app.py                  #Streamlit app script with audio
-├── iesc111.pdf             #NCERT pdf
-├── rag.py                  #RAG logic 
-├── output_audio.wav        #Temporary audio file (created and deleted dynamically)
-├── README.md  
-├── requirements.txt        #Python dependencies
-├── run.sh                  #bash file to execute everything step by step in venv             
-└── text2speech.py          # Trying out the text2speech api here 
+
+    .
+    ├── app.py                  #Streamlit app script with audio
+    ├── iesc111.pdf             #NCERT pdf
+    ├── rag.py                  #RAG logic 
+    ├── output_audio.wav        #Temporary audio file (created and deleted dynamically)
+    ├── README.md  
+    ├── requirements.txt        #Python dependencies
+    ├── run.sh                  #bash file to execute everything step by step in venv   
+    └── text2speech.py          # Trying out the text2speech api here 
 
 
 This is a RAG Chatbot 
