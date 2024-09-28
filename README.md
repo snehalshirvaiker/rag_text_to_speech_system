@@ -23,6 +23,11 @@ If found in that document, it will give us the answer; if not, It will use ollam
 
 ## This project needs Ollama to be installed and running on local machine
     https://ollama.com/
+### run the below code in terminal after running on local
+    ollama pull mistral
+    ollama run mistral
+### now check if the model is running 
+    ollama serve
 
 ### for ios, run the bash file run.sh in terminal using below command:
 
