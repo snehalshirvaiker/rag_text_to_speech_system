@@ -23,28 +23,31 @@ If found in that document, it will give us the answer; if not, It will use ollam
 
 ### for ios, run the bash file run.sh in terminal using below command:
 
-bash run.sh
+    bash run.sh
 
-##OR 
+## OR 
 
 ### for windows, the commands will be changed to below:
+    py -m venv venv
+    venv/Scripts/activate
+    py -m pip install --upgrade pip
+    py -m pip install -r requirements.txt
+    uvicorn rag:app
 
-py -m venv venv
-venv/Scripts/activate
-py -m pip install --upgrade pip
-py -m pip install -r requirements.txt
-uvicorn rag:app
-
-##once we see the follwing lines in terminal
-INFO:     Started server process [<some_number>]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
+## once we see the follwing lines in terminal
+    INFO:     Started server process [<some_number>]
+    INFO:     Waiting for application startup.
+    INFO:     Application startup complete.
 
 ### then we proceed further
 
 ### open a new terminal and run app.py using below command:
 
-python3 -m streamlit run app.py
+    python3 -m streamlit run app.py
+
+### Now you can type any question and press the Ask button
+It might take 1 minute to load questions which are simple queries mentioned in the dictionary in rag.py or from the document.
+And for questions unrelated to above, it might take 2-3 minutes.
 
 
 
