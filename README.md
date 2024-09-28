@@ -21,7 +21,7 @@ If found in that document, it will give us the answer; if not, It will use ollam
 
 ## Below are the steps to run:
 
-## This project needs Ollama to be installed on local machine
+## This project needs Ollama to be installed and running on local machine
     https://ollama.com/
 
 ### for ios, run the bash file run.sh in terminal using below command:
