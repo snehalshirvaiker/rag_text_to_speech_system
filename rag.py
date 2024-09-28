@@ -11,6 +11,7 @@ from langchain.vectorstores.utils import filter_complex_metadata
 # from langchain.embeddings import SentenceTransformerEmbeddings
 from langchain.embeddings import HuggingFaceEmbeddings
 from datetime import datetime
+import re
 
 app = FastAPI()
 
@@ -35,10 +36,11 @@ class ChatPDF:
             "hello": "Hello! How can I assist you today?",
             "how are you": "I'm good and here to help you!",
             "whats up": "Not much, just here to answer your questions.",
-            "whats the weather": "I'm not equipped to give weather updates, but rainy? hehe",
-            "who are you": "I am batman",
-            "what is the time": f"The time right now is{datetime.now()}"
-            ""
+            "weather": "I'm not equipped to give weather updates, but rainy? hehe",
+            "who are you": "I am batman hehe",
+            "time": f"The time right now is {datetime.now().strftime('%H:%M:%S')}",
+            "date": f"Today's date is {datetime.now().strftime('%Y-%m-%d')}",
+            "today": f"Today's date is {datetime.now().strftime('%Y-%m-%d')}"
         }
 
     def ingest(self, pdf_file_path: str):
@@ -61,14 +63,15 @@ class ChatPDF:
                       | self.model
                       | StrOutputParser())
 
-    def ask(self, query: str):
-        normalized_query = query.lower().strip()
-        
-        if normalized_query in self.simple_queries:
-            return self.simple_queries[normalized_query]
-
-        return self.chain.invoke(query)
-
+    def ask(self, question: str):
+        question = question.lower()
+        for key, response in self.simple_queries.items():
+            if re.search(rf"\b{key}\b", question):
+                if callable(response):
+                    return response()
+                return response
+        return self.chain.invoke(question)
+    
 chat_pdf = ChatPDF()
 pdf_path = "iesc111.pdf" 
 chat_pdf.ingest(pdf_path)

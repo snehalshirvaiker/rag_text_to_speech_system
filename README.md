@@ -21,13 +21,7 @@ If found in that document, it will give us the answer; if not, It will use ollam
 
 ## Below are the steps to run:
 
-### create a virtual env in python using below commands:
-
-python3 -m venv venv
-source /venv/bin/actibvate
-
-
-### now run the bash file run.sh in terminal using below command:
+### run the bash file run.sh in terminal using below command:
 
 bash run.sh
 
