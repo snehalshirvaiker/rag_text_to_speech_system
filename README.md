@@ -21,9 +21,19 @@ If found in that document, it will give us the answer; if not, It will use ollam
 
 ## Below are the steps to run:
 
-### run the bash file run.sh in terminal using below command:
+### for ios, run the bash file run.sh in terminal using below command:
 
 bash run.sh
+
+##OR 
+
+### for windows, the commands will be changed to below:
+
+py -m venv venv
+venv/Scripts/activate
+py -m pip install --upgrade pip
+py -m pip install -r requirements.txt
+uvicorn rag:app
 
 ##once we see the follwing lines in terminal
 INFO:     Started server process [<some_number>]
