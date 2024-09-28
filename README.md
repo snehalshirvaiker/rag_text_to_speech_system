@@ -12,11 +12,11 @@ sarvam_rag_assignmemnt/
 
 
 # This is a RAG Chatbot 
-For simple queries that the bot has to answer, it is retreiving from a dictionary in rag.py as self.simple_queries
-More Simple queries can be added can in that dictionary
+For simple queries that the bot has to answer, it is looking for that key and retreiving it from a dictionary in rag.py as self.simple_queries
+More Simple queries/keys can be added can in that dictionary
 
-For other document related questions it checks the similarity score with a threshold of 0.5 and retreives the top 5 related chunks
-If found in that document, it will give us the answer; if not, It will use ollama model mistral to retrieve an answer
+For other document related questions it will check the similarity score with a threshold of 0.5 and retreives the top 5 related chunks for context
+If found in that document, it will give us the answer; if not, It will use the ollama model mistral's trained data to retrieve the context and response
 
 
 ## Below are the steps to run:
