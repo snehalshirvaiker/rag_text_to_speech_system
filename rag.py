@@ -12,22 +12,23 @@ from langchain.vectorstores.utils import filter_complex_metadata
 from langchain.embeddings import HuggingFaceEmbeddings
 from datetime import datetime
 import re
+from pydantic import BaseModel
 
 app = FastAPI()
 
 class ChatPDF:
     def __init__(self):
-        self.model = ChatOllama(model="mistral")
+        self.model = ChatOllama(model="llama3.1")
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
         self.prompt = PromptTemplate.from_template(
             """
-            <s> [INST] You are an assistant that provides an answer of the given query from the document. 
-            Keep your answer to two or three sentences. [/INST] </s> 
-            [INST] Question: {question} 
-            Context: {context} 
+            <s> [INST] You are an assistant that provides an answers of the given given query from the document. 
+            Keep your answers to three or four sentences. [/INST] </s> 
+            [INST] Document: {context} 
             Answer: [/INST]
             """
         )
+
         self.vector_store = None
         self.retriever = None
         self.chain = None
@@ -37,13 +38,14 @@ class ChatPDF:
             "how are you": "I'm good and here to help you!",
             "whats up": "Not much, just here to answer your questions.",
             "weather": "I'm not equipped to give weather updates, but rainy? hehe",
-            "who are you": "I am batman hehe",
+            "who are you": "I am a Chatbot who will help you in answering questions about any pdf you insert",
             "time": f"The time right now is {datetime.now().strftime('%H:%M:%S')}",
             "date": f"Today's date is {datetime.now().strftime('%Y-%m-%d')}",
             "today": f"Today's date is {datetime.now().strftime('%Y-%m-%d')}"
         }
 
     def ingest(self, pdf_file_path: str):
+        global embeddings
         docs = PyPDFLoader(file_path=pdf_file_path).load()
         chunks = self.text_splitter.split_documents(docs)
         chunks = filter_complex_metadata(chunks)
@@ -57,7 +59,7 @@ class ChatPDF:
                 "score_threshold": 0.5,
             },
         )
-
+        print("context is",self.retriever)
         self.chain = ({"context": self.retriever, "question": RunnablePassthrough()}
                       | self.prompt
                       | self.model
@@ -72,14 +74,24 @@ class ChatPDF:
                 return response
         return self.chain.invoke(question)
     
+
+class PDFIngestRequest(BaseModel):
+    pdf_file_path: str
+
 chat_pdf = ChatPDF()
-pdf_path = "iesc111.pdf" 
-chat_pdf.ingest(pdf_path)
+
+@app.post("/ingest/")
+async def ingest_endpoint(request: PDFIngestRequest):
+    pdf_file_path = request.pdf_file_path
+    try:
+        chat_pdf.ingest(pdf_file_path)
+        return {"message": "PDF ingested successfully"}
+    except Exception as e:
+        return {"error": f"Failed to ingest PDF: {str(e)}"}
 
 @app.post("/query/")
 async def query_endpoint(request: Request):
     body = await request.json()
-    print("body", body)
     question = body.get("question")
     if question:
         answer = chat_pdf.ask(question)  
